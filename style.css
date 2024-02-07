@@ -57,6 +57,14 @@ body {
     padding: 12px;
     margin-left: 12px;
     cursor: pointer;
+    box-shadow: 0 15px 70px rgba(0, 0, 0, 0.3);
+}
+
+.container > .new-task-container > .new-task-btn:hover {
+    background-color: #fff;
+    color: #41b883;
+    cursor: pointer;
+    box-shadow: 0 15px 70px rgba(0, 0, 0, 0.3);
 }
 
 .container > .hidden-task-container {
@@ -101,6 +109,14 @@ body {
     color: #fff;
     padding: 8px;
     border-radius: 5px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.task-item > i:hover {
+    cursor: pointer;
+    background-color: #fff;
+    color: #41b883;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
 }
 
 .completed {

@@ -4,7 +4,7 @@ const taskContainer = document.querySelector(".task-container");
 
 const validadeInput = () => {
     return inputElement.value.trim().length > 0;
-}
+};
 
 const handleAddTask = () => {
     const inputIsValid = validadeInput();
@@ -14,7 +14,7 @@ const handleAddTask = () => {
     }
 
     createTaskContents();
-}
+};
 
 const handleInputChange = () => {
     const inputIsValid = validadeInput();
@@ -23,7 +23,7 @@ const handleInputChange = () => {
         return inputElement.classList.remove("error");
     }
 
-}
+};
 
 const createTaskContents = () => {
     const taskItemContainer = document.createElement("div");
@@ -38,7 +38,7 @@ const createTaskContents = () => {
     taskItemDelete.classList.add("fa-solid");
     taskItemDelete.classList.add("fa-trash");
 
-    taskItemDelete.addEventListener("click", () => handleDeleteClick());
+    taskItemDelete.addEventListener("click", () => handleDeleteClick(taskItemContainer, taskItemContent));
 
     taskItemContainer.appendChild(taskItemContent);
     taskItemContainer.appendChild(taskItemDelete);
@@ -49,17 +49,31 @@ const createTaskContents = () => {
     taskContainer.appendChild(taskItemContainer);
 
     inputElement.value = '';
-}
+};
 
 const handleClick = (taskItemContent) => {
     const tasks = taskContainer.childNodes;
 
     for (const task of tasks) {
-        if (task.firstChild.isSameNode(taskItemContent)) {
+        const currentTaskIsBeingClicked = task.firstChild.isSameNode(taskItemContent);
+
+        if (currentTaskIsBeingClicked) {
             task.firstChild.classList.toggle("completed");
         }
     }
-}
+};
+
+const handleDeleteClick = (taskItemContainer, taskItemContent) => {
+    const tasks = taskContainer.childNodes;
+
+    for (const task of tasks) {
+        const currentTaskIsBeingClicked = task.firstChild.isSameNode(taskItemContent);
+
+        if (currentTaskIsBeingClicked) {
+            taskItemContainer.remove();
+        }
+    }
+};
 
 addTaskBtn.addEventListener("click", () => handleAddTask());
 inputElement.addEventListener("change", () => handleInputChange());
