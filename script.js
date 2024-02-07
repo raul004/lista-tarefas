@@ -13,15 +13,32 @@ const handleAddTask = () => {
         return inputElement.classList.add("error");
     }
 
+    createTaskContents();
+}
+
+const handleInputChange = () => {
+    const inputIsValid = validadeInput();
+
+    if (inputIsValid) {
+        return inputElement.classList.remove("error");
+    }
+
+}
+
+const createTaskContents = () => {
     const taskItemContainer = document.createElement("div");
     taskItemContainer.classList.add("task-item");
 
     const taskItemContent = document.createElement("p");
     taskItemContent.innerText = inputElement.value;
 
+    taskItemContent.addEventListener("click", () => handleClick(taskItemContent));
+
     const taskItemDelete = document.createElement("i");
     taskItemDelete.classList.add("fa-solid");
     taskItemDelete.classList.add("fa-trash");
+
+    taskItemDelete.addEventListener("click", () => handleDeleteClick());
 
     taskItemContainer.appendChild(taskItemContent);
     taskItemContainer.appendChild(taskItemDelete);
@@ -34,13 +51,14 @@ const handleAddTask = () => {
     inputElement.value = '';
 }
 
-const handleInputChange = () => {
-    const inputIsValid = validadeInput();
+const handleClick = (taskItemContent) => {
+    const tasks = taskContainer.childNodes;
 
-    if (inputIsValid) {
-        return inputElement.classList.remove("error");
+    for (const task of tasks) {
+        if (task.firstChild.isSameNode(taskItemContent)) {
+            task.firstChild.classList.toggle("completed");
+        }
     }
-
 }
 
 addTaskBtn.addEventListener("click", () => handleAddTask());
