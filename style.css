@@ -59,7 +59,7 @@ body {
     cursor: pointer;
 }
 
-.container > .task-container {
+.container > .hidden-task-container {
     display: none;
     background-color: #fff;
     padding: 30px 20px;
@@ -77,4 +77,28 @@ body {
 
 .error::placeholder {
     color: red;
+}
+
+.show-task-container {
+    background-color: #fff;
+    padding: 30px 20px;
+    margin-top: 60px;
+    border-radius: 10px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    width: 100%;
+}
+
+.task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 6px;
+    margin-bottom: 12px;
+}
+
+.task-item > i {
+    background-color: #41b883;
+    color: #fff;
+    padding: 8px;
+    border-radius: 5px;
 }
