@@ -13,19 +13,6 @@ const handleAddTask = () => {
         return inputElement.classList.add("error");
     }
 
-    createTaskContents();
-};
-
-const handleInputChange = () => {
-    const inputIsValid = validadeInput();
-
-    if (inputIsValid) {
-        return inputElement.classList.remove("error");
-    }
-
-};
-
-const createTaskContents = () => {
     const taskItemContainer = document.createElement("div");
     taskItemContainer.classList.add("task-item");
 
@@ -42,13 +29,12 @@ const createTaskContents = () => {
 
     taskItemContainer.appendChild(taskItemContent);
     taskItemContainer.appendChild(taskItemDelete);
-
-    taskContainer.classList.remove("hidden-task-container");
-    taskContainer.classList.add("show-task-container");
-
+    
     taskContainer.appendChild(taskItemContainer);
 
     inputElement.value = '';
+
+    updateLocalStorage();
 };
 
 const handleClick = (taskItemContent) => {
@@ -61,6 +47,8 @@ const handleClick = (taskItemContent) => {
             task.firstChild.classList.toggle("completed");
         }
     }
+
+    updateLocalStorage();
 };
 
 const handleDeleteClick = (taskItemContainer, taskItemContent) => {
@@ -73,7 +61,64 @@ const handleDeleteClick = (taskItemContainer, taskItemContent) => {
             taskItemContainer.remove();
         }
     }
+
+    updateLocalStorage();
 };
+
+const handleInputChange = () => {
+    const inputIsValid = validadeInput();
+
+    if (inputIsValid) {
+        return inputElement.classList.remove("error");
+    }
+};
+
+const updateLocalStorage = () => {
+    const tasks = taskContainer.childNodes;
+
+    const localStorageTasks = [...tasks].map(task => {
+        const content = task.firstChild;
+        const isCompleted = content.classList.contains("completed");
+
+        return { description: content.innerText, isCompleted };
+    });
+
+    localStorage.setItem("tasks", JSON.stringify(localStorageTasks));
+};
+
+const refreshTasksUsingLocalStorage = () => {
+    const tasksFromLocalStorage = JSON.parse(localStorage.getItem("tasks"));
+
+    if (!tasksFromLocalStorage) return
+
+    for (const task of tasksFromLocalStorage) {
+        const taskItemContainer = document.createElement("div");
+        taskItemContainer.classList.add("task-item");
+
+        const taskItemContent = document.createElement("p");
+        taskItemContent.innerText = task.description;
+
+        if (task.isCompleted) {
+            taskItemContent.classList.add("completed");
+        }
+        taskItemContent.addEventListener("click", () => handleClick(taskItemContent));
+
+        const taskItemDelete = document.createElement("i");
+        taskItemDelete.classList.add("fa-solid");
+        taskItemDelete.classList.add("fa-trash");
+
+        taskItemDelete.addEventListener("click", () => handleDeleteClick(taskItemContainer, taskItemContent));
+
+        taskItemContainer.appendChild(taskItemContent);
+        taskItemContainer.appendChild(taskItemDelete);
+
+        taskContainer.appendChild(taskItemContainer);
+
+        inputElement.value = '';
+    }
+};
+
+refreshTasksUsingLocalStorage();
 
 addTaskBtn.addEventListener("click", () => handleAddTask());
 inputElement.addEventListener("change", () => handleInputChange());
